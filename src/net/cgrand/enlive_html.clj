@@ -33,6 +33,8 @@
     
 ;; HTML I/O stuff
 
+(def ^:dynamic *encoding* "UTF-8")
+
 (defn- startparse-tagsoup [s ch]
   (doto (org.ccil.cowan.tagsoup.Parser.)
     (.setFeature "http://www.ccil.org/~cowan/tagsoup/features/default-attributes" false)
@@ -42,7 +44,7 @@
     (.setProperty "http://www.ccil.org/~cowan/tagsoup/properties/auto-detector"
       (proxy [org.ccil.cowan.tagsoup.AutoDetector] []
         (autoDetectingReader [^java.io.InputStream is]
-          (java.io.InputStreamReader. is "UTF-8"))))
+          (java.io.InputStreamReader. is *encoding*))))
     (.setProperty "http://xml.org/sax/properties/lexical-handler" ch)
     (.parse s)))
 
